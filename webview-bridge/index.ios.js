@@ -23,7 +23,6 @@ import {
     WebView,
     requireNativeComponent,
     UIManager,
-    ViewPropTypes,
     NativeModules
 } from 'react-native';
 
@@ -80,6 +79,13 @@ const defaultRenderError = (errorDomain, errorCode, errorDesc) => (
     </View>
 );
 
+const RCTWebViewBridge = requireNativeComponent('RCTWebViewBridge', WebViewBridge, {
+    nativeOnly: {
+        onLoadingStart: true,
+        onLoadingError: true,
+        onLoadingFinish: true
+    }
+});
 
 /**
  * Renders a native WebView.
@@ -255,8 +261,7 @@ export class WebViewBridge extends React.Component {
 }
 
 WebViewBridge.propTypes = {
-    ...ViewPropTypes,
-
+    ...RCTWebViewBridge.propTypes,
     /**
      * Will be called once the message is being sent from webview
      */
@@ -266,14 +271,6 @@ WebViewBridge.propTypes = {
 
     keyboardDisplayRequiresUserAction: PropTypes.bool
 };
-
-const RCTWebViewBridge = requireNativeComponent('RCTWebViewBridge', WebViewBridge, {
-    nativeOnly: {
-        onLoadingStart: true,
-        onLoadingError: true,
-        onLoadingFinish: true
-    }
-});
 
 const styles = StyleSheet.create({
     container: {

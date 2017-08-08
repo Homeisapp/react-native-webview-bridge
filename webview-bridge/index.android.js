@@ -23,7 +23,6 @@ import {
     WebView,
     requireNativeComponent,
     UIManager,
-    ViewPropTypes,
     NativeModules
 } from 'react-native';
 
