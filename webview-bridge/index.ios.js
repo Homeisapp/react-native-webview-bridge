@@ -261,6 +261,10 @@ export class WebViewBridge extends React.Component {
     };
 }
 
+WebViewBridge.NavigationType = NavigationType;
+WebViewBridge.JSNavigationScheme = JSNavigationScheme;
+
+
 WebViewBridge.propTypes = {
     ...RCTWebViewBridge.propTypes,
     /**
