@@ -23,7 +23,8 @@ import {
     WebView,
     requireNativeComponent,
     UIManager,
-    NativeModules
+    NativeModules,
+    findNodeHandle
 } from 'react-native';
 
 const WebViewBridgeManager = NativeModules.WebViewBridgeManager;
@@ -128,65 +129,65 @@ export class WebViewBridge extends React.Component {
         );
     }
 
-    onMessage(event) {
+    onMessage = (event) => {
         if (this.props.onBridgeMessage !== null && event.nativeEvent !== null) {
             this.props.onBridgeMessage(event.nativeEvent.message)
         }
-    }
+    };
 
-    goForward() {
+    goForward = () => {
         UIManager.dispatchViewManagerCommand(
             this.getWebViewBridgeHandle(),
             UIManager.RCTWebViewBridge.Commands.goForward,
             null
         );
-    }
+    };
 
-    goBack() {
+    goBack = () => {
         UIManager.dispatchViewManagerCommand(
             this.getWebViewBridgeHandle(),
             UIManager.RCTWebViewBridge.Commands.goBack,
             null
         );
-    }
+    };
 
-    reload() {
+    reload = () => {
         UIManager.dispatchViewManagerCommand(
             this.getWebViewBridgeHandle(),
             UIManager.RCTWebViewBridge.Commands.reload,
             null
         );
-    }
+    };
 
-    sendToBridge(message) {
+    sendToBridge = (message) => {
         UIManager.dispatchViewManagerCommand(
             this.getWebViewBridgeHandle(),
             UIManager.RCTWebViewBridge.Commands.sendToBridge,
             [message]
         );
-    }
+    };
 
     /**
      * We return an event with a bunch of fields including:
      *  url, title, loading, canGoBack, canGoForward
      */
-    updateNavigationState(event) {
+    updateNavigationState = (event) => {
         if (this.props.onNavigationStateChange) {
             this.props.onNavigationStateChange(event.nativeEvent);
         }
-    }
+    };
 
-    getWebViewBridgeHandle() {
-        return ReactNative.findNodeHandle(this.refs[RCT_WEBVIEWBRIDGE_REF]);
-    }
+    getWebViewBridgeHandle = () => {
+        return findNodeHandle(this.refs[RCT_WEBVIEWBRIDGE_REF]);
+    };
 
-    onLoadingStart(event) {
+    onLoadingStart = (event) => {
         const onLoadStart = this.props.onLoadStart;
         onLoadStart && onLoadStart(event);
         this.updateNavigationState(event);
-    }
+    };
 
-    onLoadingError(event) {
+    onLoadingError = (event) => {
         event.persist(); // persist this event because we need to store it
         const { onError, onLoadEnd } = this.props;
         onError && onError(event);
@@ -196,9 +197,9 @@ export class WebViewBridge extends React.Component {
             lastErrorEvent: event.nativeEvent,
             viewState: WebViewBridgeState.ERROR
         });
-    }
+    };
 
-    onLoadingFinish(event) {
+    onLoadingFinish = (event) => {
         const { onLoad, onLoadEnd } = this.props;
         onLoad && onLoad(event);
         onLoadEnd && onLoadEnd(event);
@@ -206,7 +207,7 @@ export class WebViewBridge extends React.Component {
             viewState: WebViewBridgeState.IDLE,
         });
         this.updateNavigationState(event);
-    }
+    };
 }
 
 WebViewBridge.propTypes = {
