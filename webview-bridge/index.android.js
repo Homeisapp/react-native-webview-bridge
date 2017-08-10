@@ -24,6 +24,7 @@ import {
     requireNativeComponent,
     UIManager,
     NativeModules,
+    DeviceEventEmitter,
     findNodeHandle
 } from 'react-native';
 
